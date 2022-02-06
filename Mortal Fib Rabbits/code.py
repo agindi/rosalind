@@ -7,21 +7,26 @@ def main():
         line = f.readlines()[0]
         nums = line.split(' ')
         n = int(nums[0]) # months
-        k = int(nums[1]) # rabit pairs per litter
+        m = int(nums[1]) # rabbit lifespan
 
-        # In any given month, k new rabit pairs are born for each rabbit pair that
-        # was alive 2 months prior.
-        # We add these new rabit pairs to the total for the previous month to get
-        # the new total for that month
+        if(m < 2):
+            print('0')
+            return
 
+        # let's track both birth numbers and total population size
         pairCounts = [1] * n
+        birthCounts = [0] * n
+        birthCounts[1] = 1 
 
-        for i in range(2, n):
-            pairCounts[i] = pairCounts[i-1] + k * pairCounts[i-2]
-        
+        for i in range(2, m):
+            birthCounts[i] = pairCounts[i - 2]
+            pairCounts[i] = pairCounts[i - 1] + birthCounts[i]
+
+        for i in range(m, n):
+            birthCounts[i] = pairCounts[i-2]
+            pairCounts[i] = pairCounts[i - 1] + birthCounts[i] - birthCounts[i - m + 1]
+
         print(pairCounts[n-1])
-
-
 
 
 if __name__ == "__main__":
