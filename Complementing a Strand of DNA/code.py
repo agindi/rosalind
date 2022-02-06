@@ -5,8 +5,18 @@ __location__ = os.path.realpath(
 def main():
     with open(os.path.join(__location__, '.\data.dat')) as f:
         line = f.readlines()[0]
-        nline = line.replace('T', 'U')
-        print(nline)
+        nline = list()
+        for c in line[::-1]:
+            if c == 'A':
+                nline.append('T')
+            elif c == 'T':
+                nline.append('A')
+            elif c == 'C':
+                nline.append('G')
+            elif c == 'G':
+                nline.append('C')
+        output = ''.join(nline)
+        print(output)
 
 
 
