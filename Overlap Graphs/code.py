@@ -6,19 +6,20 @@ def main():
     with open(os.path.join(__location__, '.\data.dat')) as f:
         lines = f.readlines()
         inputMap = parseFASTA(lines)
-        maxItem = max(inputMap.items(), key = lambda k : computeGCContent(k[1]))
-        print(maxItem[0])
-        print(round(100*computeGCContent(maxItem[1]), 4))
+        nodes = inputMap.keys()
+        edges = list()
+        for n1 in nodes:
+            for n2 in nodes:
+                if n1 == n2:
+                    continue
+                if(inputMap[n1][-3:] == inputMap[n2][:3]):
+                    edges.append((n1, n2))
+        print("\n".join([" ".join(e) for e in edges]))
 
-def computeGCContent(seq):
-    compiler = {'A': 0, 'T': 0, 'G': 0, 'C': 0}
-    for base in seq:
-        compiler[base] += 1
-    return (compiler['C'] + compiler['G']) / sum(compiler.values())
 
 def parseFASTA(inputList):
     outputMap = dict()
-    currID = inputList[0][:-1]
+    currID = inputList[0][1:-1]
     buffer = ""
     for line in inputList[1:]:
         line = line.strip()
