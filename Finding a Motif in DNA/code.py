@@ -4,19 +4,12 @@ __location__ = os.path.realpath(
 
 def main():
     with open(os.path.join(__location__, '.\data.dat')) as f:
-        line = f.readlines()[0]
-        nline = list()
-        for c in line[::-1]:
-            if c == 'A':
-                nline.append('T')
-            elif c == 'T':
-                nline.append('A')
-            elif c == 'C':
-                nline.append('G')
-            elif c == 'G':
-                nline.append('C')
-        output = ''.join(nline)
-        print(output)
+        lines = f.readlines()
+        s = lines[0].strip()
+        t = lines[1].strip()
+        # I wanna try to do this as a one liner - for the extra flex
+        locations = [l+1 for l in range(0, len(s)-len(t)) if s[l:l+len(t)] == t]
+        print(" ".join([str(l) for l in locations]))
 
 
 
